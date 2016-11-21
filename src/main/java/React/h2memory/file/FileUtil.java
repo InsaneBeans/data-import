@@ -1,4 +1,6 @@
-package React.h2memory.util;
+package React.h2memory.file;
+
+import React.h2memory.util.CommonValue;
 
 /**
  * 文件工具类

@@ -26,4 +26,9 @@ public class FileParseImpl implements FileParse{
 	public List<String> getSheetNames(String filePath) {
 		return null;
 	}
+
+	@Override
+	public String getFileName(String filePath) {
+		return null;
+	}
 }

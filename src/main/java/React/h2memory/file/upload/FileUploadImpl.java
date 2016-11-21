@@ -20,11 +20,44 @@ public class FileUploadImpl implements FileUpload{
 	 * 文件在服务端存储的目录
 	 */
 	private String fileFullTempPath;
+	/**
+	 * 上传的文件
+	 */
+	private MultipartFile multiFile;
+	/**
+	 * 保存的文件对象
+	 */
+	private File savedFile;
+	
+	@Override
+	public boolean isEmpty(){
+		if(multiFile.isEmpty()){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public File initFile() {
+		savedFile = new File(fileFullTempPath);
+		return savedFile;
+	};
+	
+	@Override
+	public String initFileSavePath() {
+		fileFullTempPath = System.getProperty("user.dir")+"\\"+"temp"+"\\"+multiFile.getOriginalFilename();
+		return fileFullTempPath;
+	}
+	
+	@Override
+	public String initFileSavePath(String path) {
+		fileFullTempPath = path+multiFile.getOriginalFilename();
+		return fileFullTempPath;
+	}
 	
 	@Override
 	public String fileUpload(MultipartFile file){
-		fileFullTempPath =  System.getProperty("user.dir")+"\\"+"temp"+"\\"+file.getOriginalFilename();
-		File newFile = new File(fileFullTempPath);
+		File newFile = new File(this.initFileSavePath());
 		if (!file.isEmpty()) {
 			try {
 				BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(newFile));
@@ -39,5 +72,22 @@ public class FileUploadImpl implements FileUpload{
 		} else {
 			return "文件为空，无法上传！";
 		}
+	}
+
+	@Override
+	public String deleteExistFile() {
+		File file = new File(this.initFileSavePath());
+		if(file.exists()) {
+			file.delete();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isExist() {
+		if(savedFile.exists()) {
+			return true;
+		}
+		return false;
 	}
 }

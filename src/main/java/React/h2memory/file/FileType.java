@@ -1,4 +1,4 @@
-package React.h2memory.util;
+package React.h2memory.file;
 
 public enum FileType {
 	EXCEL_2007,
