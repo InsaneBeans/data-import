@@ -13,7 +13,7 @@ import React.h2memory.dbconfig.DbTable;
  * @author huh
  *
  */
-public class ColumnName {
+public class GenerateColumnName {
 	
 	/**
 	 * 字段计数

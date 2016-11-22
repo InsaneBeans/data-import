@@ -2,7 +2,7 @@ package React.h2memory.dbconfig;
 
 import org.junit.Test;
 
-import React.h2memory.util.ColumnName;
+import React.h2memory.util.GenerateColumnName;
 import React.h2memory.util.serialize.JsonSerialIml;
 
 public class TestDbColumn {
@@ -22,7 +22,7 @@ public class TestDbColumn {
 		dbTable.setTableName("test");
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		System.out.println(jsonSerialIml.serializeToString(
-				new ColumnName().getColumnName(dbTable)));
+				new GenerateColumnName().getColumnName(dbTable)));
 	}
 	
 	@Test
@@ -32,6 +32,6 @@ public class TestDbColumn {
 		dbField1.setType(FieldType.INT);
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		System.out.println(jsonSerialIml.serializeToString(
-				new ColumnName().generateColumnName(dbField1)));
+				new GenerateColumnName().generateColumnName(dbField1)));
 	}
 }
