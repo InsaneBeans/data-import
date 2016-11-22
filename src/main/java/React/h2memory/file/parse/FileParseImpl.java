@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import React.h2memory.dbconfig.DbField;
+import React.h2memory.file.FileType;
+import React.h2memory.file.FileUtil;
 
 /**
  * 文件解析实现类
@@ -12,23 +17,65 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class FileParseImpl implements FileParse{
+public class FileParseImpl extends AbstractFileParse{
 	
-	private String result;
+	/**
+	 * 头信息结果
+	 */
+	private String headerResult;
+	/**
+	 * 文件类型
+	 */
+	private FileType fileType;
+	/**
+	 * 文件路径
+	 */
+	private String filePath;
+	/**
+	 * 上传的文件
+	 */
+	private MultipartFile file;
+	
+	public FileType getFielType() {
+		return fileType;
+	}
+
+	public void setFielType(FileType fileType) {
+		this.fileType = fileType;
+	}
+	
+	@Override
+	public FileType getFileType() {
+		FileUtil util = new FileUtil();
+		return util.fileTypeJudge(filePath);
+	}
 	
 	@Override
 	public String getFileHeader(String filePath) throws IOException{
-		result = new GetFileStructure().getFileHeader(filePath);
-		return result;
+		headerResult = new GetFileStructure().getFileHeader(filePath);
+		return headerResult;
 	}
 
 	@Override
 	public List<String> getSheetNames(String filePath) {
-		return null;
+		FileUtil util = new FileUtil();
+		if(util.getFileSuffix(filePath).equals(FileType.CSV)) {
+			return null; //CSV文件的获取sheetnames的方法
+		} else if (util.getFileSuffix(filePath).equals(FileType.EXCEL_2003)) {
+			return null; //excel2003的获取sheetnames方法
+		} else {
+			return null; //excel2007的获取sheetnames方法
+		}
 	}
 
 	@Override
-	public String getFileName(String filePath) {
+	public DbField[] getHeaderArray(MultipartFile file) {
+		this.file = file;
+		String fileName = file.getOriginalFilename();
+		FileUtil util = new FileUtil();
+		if(util.fileTypeJudge(fileName).equals(FileType.CSV)) {
+			
+		}
 		return null;
 	}
 }

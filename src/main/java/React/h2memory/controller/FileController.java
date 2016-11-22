@@ -34,17 +34,11 @@ public class FileController {
 		List<String> sheetStrings = new ArrayList<String>();
 		H2Config h2Config = new H2Config();
 		String filePath = fileUpload.fileUpload(file);
-		if(filePath.indexOf("\\")>0) {
+		if(!filePath.isEmpty()) {
 			try{
 				tableStructure = fileParse.getFileHeader(filePath);
 				sheetStrings = new GetExcelHeader().getFileHeader(filePath);
 				sheetStrings.forEach((String sheetString) -> h2Config.createTableByName(sheetString));
-//				for( int i=0; i<sheetStrings.size(); i++ ) {
-//					h2Config.createTableByName(sheetStrings.get(i));
-//				}
-				System.out.println(h2Config.createTable());
-				System.out.println(h2Config.insertData());
-				System.out.println(h2Config.selectData());
 			} catch ( Exception e) {
 				e.printStackTrace();
 			}
@@ -75,7 +69,7 @@ public class FileController {
 		if(!dbOperation.isExist(tableName)){
 			if(dbOperation.createTable(tableName, fields)) System.out.println("创建表成功");
 		};
-		//导入数据
+		//存入数据库
 		H2Config config = new H2Config();
 		config.insertCsvFile(filePath);
 	}

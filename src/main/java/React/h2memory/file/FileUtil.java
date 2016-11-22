@@ -31,11 +31,11 @@ public class FileUtil {
 	 * @param filePath
 	 * @return
 	 */
-	public FileType fileTypeJudge(String filePath){
+	public FileType fileTypeJudge(String filePath) {
 		if (filePath == null || CommonValue.EMPTY_CONTENT.equals(filePath.trim())) {
 			return null;
 		}
-		switch(getFileSuffix(filePath)){
+		switch(getFileSuffix(filePath)) {
 		case "xlsx": return FileType.EXCEL_2007; 
 		case "xls": return FileType.EXCEL_2003;
 		case "csv": return FileType.CSV;

@@ -17,7 +17,7 @@ public class DbField {
 	 */
 	private FieldType type;
 	
-	public DbField(String name, FieldType type, int maxLength) {
+	public DbField(String name, FieldType type) {
 		this.name = name;
 		this.type = type;
 	}

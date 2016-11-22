@@ -34,7 +34,7 @@ public class GetCsvHeader {
 		FileReader fileReader = new FileReader(new File(filePath));
 		CSVReader csvReader = new CSVReader(fileReader);
 		String[] strs = csvReader.readNext();
-		DbField[] fields = Stream.of(strs).map(str ->{
+		DbField[] fields = Stream.of(strs).map(str -> {
 			DbField field = new DbField();
 			field.setName(str);
 			field.setType(FieldType.VARCHAR);
@@ -69,12 +69,5 @@ public class GetCsvHeader {
 		csvReader.close();
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		return jsonSerialIml.serializeToString(headerInfo);
-	}
-	
-	public static void main(String[] args) throws Exception {
-		String filepath = "C:\\Users\\Administrator\\Desktop\\excelTest\\csv.csv";
-		JsonSerialIml jsonSerialIml = new JsonSerialIml();
-		String re = jsonSerialIml.serializeToString(new GetCsvHeader().getHeaderArray(filepath));
-		System.out.println(re);
 	}
 }
