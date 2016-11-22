@@ -18,5 +18,9 @@ public class CommonValue {
     public static final String EMPTY_FILE = "文件为空";
     public static final String DEFAULT_JSONFILE_SAVE_PATH = "D:\\Serial\\json\\";
     public static final String DEFAULT_XMLFILE_SAVE_PATH = "D:\\Serial\\json\\";
+    public static final String OTHER = "其他";
+    public static final String ALL_CHINESE = "全都是中文";
+    public static final String ALL_ENGLISH = "全是英文";
+    public static final String PART_CHINESE = "部分是中文";
 
 }

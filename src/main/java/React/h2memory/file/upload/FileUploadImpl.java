@@ -57,6 +57,7 @@ public class FileUploadImpl implements FileUpload{
 	
 	@Override
 	public String fileUpload(MultipartFile file){
+		multiFile = file;
 		File newFile = new File(this.initFileSavePath());
 		if (!file.isEmpty()) {
 			try {

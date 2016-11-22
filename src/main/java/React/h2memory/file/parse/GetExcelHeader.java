@@ -21,7 +21,7 @@ import React.h2memory.util.CommonValue;
  * @author huh
  * 
  */
-public class GetFileHeader {
+public class GetExcelHeader {
     
     /**
      * 获取EXCEL表格中页签名的方法

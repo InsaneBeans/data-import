@@ -4,10 +4,8 @@ import java.sql.Connection;
 
 import org.springframework.stereotype.Component;
 
-import com.mysql.jdbc.Field;
-
 /**
- * 数据库操作 接口
+ * 数据库操作接口
  * 
  * @author huh
  *
@@ -32,7 +30,7 @@ public interface DbOperation {
 	/**
 	 * 创建数据表
 	 */
-	boolean createTable(String tableName, Field[] fields);
+	boolean createTable(String tableName, DbField[] fields);
 	/**
 	 * 创建数据表
 	 */
@@ -56,5 +54,10 @@ public interface DbOperation {
 	 * @return
 	 */
 	boolean deleteData();
+	/**
+	 * 判断数据表是否存在
+	 * @return
+	 */
+	boolean isExist(String tableName);
 
 }

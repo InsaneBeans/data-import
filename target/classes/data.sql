@@ -25,4 +25,4 @@ insert into good(id,alias,name,province_id) values (11,'screen','屏幕','1');
 
 create table rest(ID INT PRIMARY KEY, NAME VARCHAR(255));
 
-create table csv(ID INT PRIMARY KEY, NAME VARCHAR(255),SEX VARCHAR(255),AGE INT);
+create table csv(NAME VARCHAR(255),SEX VARCHAR(255), AGE VARCHAR(255));

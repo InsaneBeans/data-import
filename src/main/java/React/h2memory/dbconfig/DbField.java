@@ -1,12 +1,12 @@
 package React.h2memory.dbconfig;
 
 /**
- * 数据表表字段类
+ * 数据表字段
  * 
  * @author huh
  *
  */
-public class Field {
+public class DbField {
 	
 	/**
 	 * 字段名称
@@ -16,15 +16,14 @@ public class Field {
 	 * 字段类型
 	 */
 	private FieldType type;
-	/**
-	 * 字段长度
-	 */
-	private int maxLength;
 	
-	public Field(String name,FieldType type,int maxLength){
+	public DbField(String name, FieldType type, int maxLength) {
 		this.name = name;
 		this.type = type;
-		this.maxLength = maxLength;
+	}
+	
+	public DbField(){
+		
 	}
 
 	public String getName() {
@@ -41,13 +40,5 @@ public class Field {
 
 	public void setType(FieldType type) {
 		this.type = type;
-	}
-
-	public int getMaxLength() {
-		return maxLength;
-	}
-
-	public void setMaxLength(int maxLength) {
-		this.maxLength = maxLength;
 	}
 }
