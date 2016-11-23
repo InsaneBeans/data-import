@@ -12,13 +12,8 @@ import React.h2memory.dbconfig.FieldType;
 import React.h2memory.util.serialize.JsonSerialIml;
 import au.com.bytecode.opencsv.CSVReader;
 
-/**
- * 获取csv文件的表头信息
- * 
- *@author huh
- *
- */
-public class GetCsvHeader {
+public class CsvParse {
+	
 	
 	/**
 	 * 头信息，Map<字段名，字段类型>
@@ -70,4 +65,5 @@ public class GetCsvHeader {
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		return jsonSerialIml.serializeToString(headerInfo);
 	}
+
 }

@@ -21,12 +21,13 @@ import React.h2memory.util.serialize.JsonSerialIml;
 
 
 /**
- * 获得文件表结构工具类
+ * Excel解析工具类
  * 
  * @author huh
- *
+ * 
  */
-public class GetFileStructure {
+public class ExcelParse {
+	
 	/**
 	 * 序列化后的字符结果
 	 */
@@ -43,15 +44,41 @@ public class GetFileStructure {
 	 * 表头行对象
 	 */
     private Row headRow; 
-	
-	/**
+    
+    /**
+     * 获取EXCEL表格中页签名的方法，用于数据表的创建
+     * 
+     * @param filePath 文件路径
+     * @return sheet名称列表
+     * @throws IOException
+     */
+    public List<String> getExcelSheetNames(String filePath) throws IOException{
+    	FileUtil util = new FileUtil();
+        InputStream is = new FileInputStream(filePath);
+        Workbook workbook;  
+        Sheet sheet; 
+        List<String> listNames = new ArrayList<String>();
+        if(util.fileTypeJudge(filePath).equals(CommonValue.EXCEL_2003_SUFFIX)){
+            workbook = new HSSFWorkbook(is);
+        } else {
+            workbook = new XSSFWorkbook(is);
+        } 
+        for(int sheetNum = 0; sheetNum < workbook.getNumberOfSheets(); sheetNum++){
+            sheet = workbook.getSheetAt(sheetNum);
+            String sheetnameString = sheet.getSheetName();
+            listNames.add(sheetnameString);
+        }
+        return listNames;
+    }
+    
+    /**
      * 获取EXCEL表格的表头结构
      * 
      * @param filePath 文件路径
      * @return 表头结构json串
      * @throws IOException
      */
-    public String getFileHeader(String filePath) throws IOException{
+    public String getExcelStructure(String filePath) throws IOException{
     	FileUtil fileUtil = new FileUtil();
         InputStream is = new FileInputStream(filePath);
         Map<String,List<String>> fileHeaderStructure= new HashMap<String,List<String>>();

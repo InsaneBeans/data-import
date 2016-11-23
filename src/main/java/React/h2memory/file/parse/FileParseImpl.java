@@ -52,7 +52,7 @@ public class FileParseImpl extends AbstractFileParse{
 	
 	@Override
 	public String getFileHeader(String filePath) throws IOException{
-		headerResult = new GetFileStructure().getFileHeader(filePath);
+		headerResult = new ExcelParse().getExcelStructure(filePath);
 		return headerResult;
 	}
 
@@ -60,7 +60,7 @@ public class FileParseImpl extends AbstractFileParse{
 	public List<String> getSheetNames(String filePath) {
 		FileUtil util = new FileUtil();
 		if(util.getFileSuffix(filePath).equals(FileType.CSV)) {
-			return null; //CSV文件的获取sheetnames的方法
+			return null; //CSV文件的获取sheetname的方法
 		} else if (util.getFileSuffix(filePath).equals(FileType.EXCEL_2003)) {
 			return null; //excel2003的获取sheetnames方法
 		} else {
@@ -69,13 +69,22 @@ public class FileParseImpl extends AbstractFileParse{
 	}
 
 	@Override
-	public DbField[] getHeaderArray(MultipartFile file) {
-		this.file = file;
+	public DbField[] getHeaderArray(MultipartFile multifile) {
+		this.file = multifile;
 		String fileName = file.getOriginalFilename();
 		FileUtil util = new FileUtil();
-		if(util.fileTypeJudge(fileName).equals(FileType.CSV)) {
-			
+		try{
+			if(util.fileTypeJudge(fileName).equals(FileType.CSV)) {
+				return new CsvParse().getHeaderArray(fileName);
+			} else if (util.fileTypeJudge(fileName).equals(FileType.EXCEL_2003)){
+				
+			} else if (util.fileTypeJudge(fileName).equals(FileType.EXCEL_2007)){
+				
+			}
+		} catch (Exception e){
+			e.printStackTrace();
 		}
+		
 		return null;
 	}
 }

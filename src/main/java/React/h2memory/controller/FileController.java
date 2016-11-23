@@ -12,9 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import React.h2memory.dbconfig.DbOperation;
 import React.h2memory.dbconfig.DbField;
 import React.h2memory.dbconfig.H2Config;
+import React.h2memory.file.parse.CsvParse;
 import React.h2memory.file.parse.FileParse;
-import React.h2memory.file.parse.GetCsvHeader;
-import React.h2memory.file.parse.GetExcelHeader;
+import React.h2memory.file.parse.ExcelParse;
 import React.h2memory.file.upload.FileUpload;
 
 @Controller
@@ -37,7 +37,7 @@ public class FileController {
 		if(!filePath.isEmpty()) {
 			try{
 				tableStructure = fileParse.getFileHeader(filePath);
-				sheetStrings = new GetExcelHeader().getFileHeader(filePath);
+				sheetStrings = new ExcelParse().getExcelSheetNames(filePath);
 				sheetStrings.forEach((String sheetString) -> h2Config.createTableByName(sheetString));
 			} catch ( Exception e) {
 				e.printStackTrace();
@@ -62,7 +62,7 @@ public class FileController {
 	@RequestMapping("/csv")
 	@ResponseBody
 	public void csvTest(@RequestParam("file") MultipartFile file) throws Exception {
-		GetCsvHeader getCsvHeader = new GetCsvHeader();
+		CsvParse getCsvHeader = new CsvParse();
 		String filePath = fileUpload.fileUpload(file);
 		DbField[] fields = getCsvHeader.getHeaderArray(filePath);
 		String tableName = "csv";
