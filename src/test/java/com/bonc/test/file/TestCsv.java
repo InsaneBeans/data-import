@@ -11,7 +11,7 @@ public class TestCsv {
 	public void testCsvHeader() throws Exception {
 		String filepath = "C:\\Users\\Administrator\\Desktop\\excelTest\\csv.csv";
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
-		String re = jsonSerialIml.serializeToString(new CsvParse().getHeaderArray(filepath));
+		String re = jsonSerialIml.serializeToString(new CsvParse().getDbFields(filepath));
 		System.out.println(re);
 	}
 

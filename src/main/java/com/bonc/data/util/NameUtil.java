@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.bonc.data.dbconfig.DbField;
 import com.bonc.data.dbconfig.DbTable;
 
 /**
- * 字段名生成类
+ * 字段和表格名称工具类
  * 
  * @author huh
  *
  */
-public class GenerateColumnName {
+public class NameUtil {
 	
 	/**
 	 * 字段计数
@@ -28,15 +29,25 @@ public class GenerateColumnName {
 	public List<String> getColumnName(DbTable dbTable){
 		DbField[] fields = dbTable.getFields();
 		List<String> columnList = new ArrayList<String>();
-		for(int i=0, n=fields.length; i < n; i++) {
-			if(isChinese(fields[i].getName())){
-				columnList.add(generateColumnName(fields[i]));
-				columnNameMap.put(fields[i], generateColumnName(fields[i]));
+		for(DbField field: fields){
+			if(isChinese(field.getName())){
+				columnList.add(generateColumnName(field));
+				columnNameMap.put(field, generateColumnName(field));
 			} else {
-				columnList.add(fields[i].getName());
-				columnNameMap.put(fields[i], fields[i].getName());
+				columnList.add(field.getName());
+				columnNameMap.put(field, field.getName());
 			}
 		}
+		
+//		for(int i=0, n=fields.length; i < n; i++) {
+//			if(isChinese(fields[i].getName())){
+//				columnList.add(generateColumnName(fields[i]));
+//				columnNameMap.put(fields[i], generateColumnName(fields[i]));
+//			} else {
+//				columnList.add(fields[i].getName());
+//				columnNameMap.put(fields[i], fields[i].getName());
+//			}
+//		}
 		//下面这么写法怎么不对？
 //		Stream.of(fields).map(field -> {
 //			if(isChinese(field.getName())) {
@@ -77,7 +88,7 @@ public class GenerateColumnName {
 	 * @param str
 	 * @return
 	 */
-	private boolean isChinese(String str) {
+	public boolean isChinese(String str) {
 		 char[] ch = str.toCharArray();
 		 int totalChar = ch.length;
 		 int trueNum = 0;
@@ -106,6 +117,16 @@ public class GenerateColumnName {
             columnNameMap.put(dbField, fieldName);
         }
         return fieldName;  
+	}
+	
+	/**
+	 * 根据中文名生成英文名
+	 * @param cnName
+	 * @return
+	 */
+	public String generateEnglishName(String cnName){
+		String s = UUID.randomUUID().toString();
+		return "table_"+s.substring(0,13);
 	}
 	
 	/**

@@ -26,7 +26,7 @@ public class CsvParse {
 	 * 
 	 * @return 字段数组
 	 */
-	public DbField[] getHeaderArray(String filePath) throws Exception {
+	public DbField[] getDbFields(String filePath) throws Exception {
 		FileReader fileReader = new FileReader(new File(filePath));
 		CSVReader csvReader = new CSVReader(fileReader);
 		String[] strs = csvReader.readNext();

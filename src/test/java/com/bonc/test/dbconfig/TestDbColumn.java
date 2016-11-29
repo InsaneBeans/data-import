@@ -5,7 +5,7 @@ import org.junit.Test;
 import com.bonc.data.dbconfig.DbField;
 import com.bonc.data.dbconfig.DbTable;
 import com.bonc.data.dbconfig.FieldType;
-import com.bonc.data.util.GenerateColumnName;
+import com.bonc.data.util.NameUtil;
 import com.bonc.data.util.serialize.JsonSerialIml;
 
 public class TestDbColumn {
@@ -25,7 +25,7 @@ public class TestDbColumn {
 		dbTable.setTableName("test");
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		System.out.println(jsonSerialIml.serializeToString(
-				new GenerateColumnName().getColumnName(dbTable)));
+				new NameUtil().getColumnName(dbTable)));
 	}
 	
 	@Test
@@ -35,6 +35,6 @@ public class TestDbColumn {
 		dbField1.setType(FieldType.INT);
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		System.out.println(jsonSerialIml.serializeToString(
-				new GenerateColumnName().generateColumnName(dbField1)));
+				new NameUtil().generateColumnName(dbField1)));
 	}
 }

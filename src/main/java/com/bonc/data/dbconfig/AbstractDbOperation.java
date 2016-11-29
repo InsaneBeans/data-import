@@ -35,10 +35,9 @@ public abstract class AbstractDbOperation implements DbOperation{
 	 */
 	private String driver;
 	
-	public AbstractDbOperation(String url,String name,String password,Connection connection,String driver){
+	public AbstractDbOperation(String url,String name,String password, String driver){
 		this.url = url;
-		this.connection = connection;
-		this.name = name;
+		this.name = name; 
 		this.password = password;
 		this.driver = driver;
 	}

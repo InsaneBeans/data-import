@@ -4,9 +4,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
+
+import com.bonc.data.file.FileType;
+import com.bonc.data.file.FileUtil;
+import com.bonc.data.util.NameUtil;
+import com.bonc.data.util.exception.DbException;
 
 
 /**
@@ -18,8 +22,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class H2DbOperation extends AbstractDbOperation{
 	
-	public H2DbOperation(String url, String name, String password, Connection connection, String driver) {
-		super(url, name, password, connection, driver);
+	public H2DbOperation(String url, String name, String password, String driver) {
+		super(url, name, password, driver);
 	}
 
 	public H2DbOperation() {
@@ -40,12 +44,12 @@ public class H2DbOperation extends AbstractDbOperation{
 			sql.append(tableName);
 			sql.append("(ID INT PRIMARY KEY)");
 			pStatement = connection.createStatement();
-			if(pStatement.executeUpdate(sql.toString())==0){
+			if(pStatement.executeUpdate(sql.toString())==0) {
 				System.out.println("表"+tableName+"创建成功:"+sql);
 			} else {
 				System.out.println("创建失败");
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
@@ -56,30 +60,62 @@ public class H2DbOperation extends AbstractDbOperation{
 		StringBuilder sql = new StringBuilder("CREATE TABLE ");
 		Connection connection = new H2Config().getH2Connection();
 		Statement pStatement = null;
+		NameUtil nameUtil = new NameUtil();
 		try{
-			sql.append(tableName);
-//			sql.append("(ID INT PRIMARY KEY,");
-			Stream.of(fields).map(field -> sql.append(field.getName()+field.getType()+","));
-			sql.deleteCharAt(sql.length() - 2);
+			if(nameUtil.isChinese(tableName)) {
+				sql.append(nameUtil.generateEnglishName(tableName));
+			} else {
+				sql.append(tableName + "(");
+			}
+			for(DbField field: fields) {
+				//中文字段的判断
+				if(!nameUtil.isChinese(field.getName())) {
+					sql.append(field.getName() +" "+ field.getType() + ",");
+				} else {
+					String newFieldName = nameUtil.generateColumnName(field);
+					sql.append(newFieldName +" "+ field.getType() + ",");
+				}
+			}
+			sql.deleteCharAt(sql.length() - 1);
+			sql.append(")");
 			pStatement = connection.createStatement();
-			if(pStatement.executeUpdate(sql.toString())==0){
+			if(pStatement.executeUpdate(sql.toString())==0) {
 				System.out.println("表"+tableName+"创建成功:"+sql);
 			} else {
-				System.out.println("创建失败");
+				throw new DbException("创建数据表失败");
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 	
 	@Override
-	public boolean createTable(String[] tableNames) {
+	public boolean createTable(DbTable[] dbTables) {
 		return false;
 	}
 
 	@Override
-	public String insertData() {
+	public String insertData(String filePath) {
+		StringBuilder sqlBuilder = new StringBuilder("");
+		FileUtil fileUtil = new FileUtil();
+		Connection connection = new H2Config().getH2Connection();
+		Statement statement = null;
+		try{
+			statement = connection.createStatement();
+			//CSV文件的数据导入
+			if(fileUtil.fileTypeJudge(filePath).equals(FileType.CSV)) {
+				sqlBuilder.append("INSERT INTO CSV (SELECT * FROM CSVREAD");
+				sqlBuilder.append("('");
+				sqlBuilder.append(filePath);
+				sqlBuilder.append("'))");
+				if(!statement.execute(sqlBuilder.toString())) {
+					return "插入数据成功";
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

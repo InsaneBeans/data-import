@@ -34,11 +34,11 @@ public interface DbOperation {
 	/**
 	 * 创建数据表
 	 */
-	boolean createTable(String[] tableNames);
+	boolean createTable(DbTable[] dbTables);
 	/**
 	 * 数据插入
 	 */
-	String insertData();
+	String insertData(String filePath);
 	/**
 	 * 数据查询
 	 * @return

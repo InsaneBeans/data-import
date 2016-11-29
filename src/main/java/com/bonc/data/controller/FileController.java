@@ -64,13 +64,14 @@ public class FileController {
 	public void csvTest(@RequestParam("file") MultipartFile file) throws Exception {
 		CsvParse getCsvHeader = new CsvParse();
 		String filePath = fileUpload.fileUpload(file);
-		DbField[] fields = getCsvHeader.getHeaderArray(filePath);
-		String tableName = "csv";
-		if(!dbOperation.isExist(tableName)){
+		DbField[] fields = getCsvHeader.getDbFields(filePath);
+		String tableName = filePath.substring(filePath.lastIndexOf("\\")+1, filePath.lastIndexOf("."));
+		if(!dbOperation.isExist(tableName)) {
 			if(dbOperation.createTable(tableName, fields)) System.out.println("创建表成功");
 		};
 		//存入数据库
-		H2Config config = new H2Config();
-		config.insertCsvFile(filePath);
+		System.out.println(dbOperation.insertData(filePath));
+//		H2Config config = new H2Config();
+//		config.insertCsvFile(filePath);
 	}
 }
