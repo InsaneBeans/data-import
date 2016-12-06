@@ -91,6 +91,7 @@ public class ExcelParse {
                 fields.add(field);
             }
             table.setFields(fields.toArray(new Field[fields.size()]));
+            table.setFilePath(filePath);
             tables.add(table);
         }
         return tables;
@@ -118,8 +119,8 @@ public class ExcelParse {
         table.setTableName(sheet.getSheetName());
         Row headRow = sheet.getRow(0);
         List<Field> fields = new ArrayList<Field>();
-        int firstColumn  = headRow.getFirstCellNum();
-        int lastColumn   = headRow.getLastCellNum();
+        int firstColumn = headRow.getFirstCellNum();
+        int lastColumn = headRow.getLastCellNum();
         for(int i = firstColumn; i< lastColumn; i++ ){
             String cellValue = CellType.getStringVal(headRow. getCell(i));
             Field field = new Field();
@@ -128,6 +129,7 @@ public class ExcelParse {
             fields.add(field);
         }
         table.setFields(fields.toArray(new Field[fields.size()]));
+        table.setFilePath(filePath);
         return table;
     }
 }

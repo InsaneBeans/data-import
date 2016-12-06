@@ -21,14 +21,14 @@ import com.bonc.data.structure.Table;
 
 @Controller
 public class FileController {
-	
+
 	@Autowired
 	private FileUpload fileUpload;
-	@Autowired 
+	@Autowired
 	private FileParse fileParse;
 	@Autowired
 	private DbOperation dbOperation;
-	
+
 	@RequestMapping("/excel/simple")
 	@ResponseBody
 	public Table fileUpload(@RequestParam("file") MultipartFile file) {
@@ -36,44 +36,37 @@ public class FileController {
 		List<String> sheetStrings = new ArrayList<String>();
 		H2Config h2Config = new H2Config();
 		String filePath = fileUpload.fileUpload(file);
-		if(!filePath.isEmpty()) {
-			try{
+		if (!filePath.isEmpty()) {
+			try {
 				table = fileParse.getSimpleFileStructure(filePath);
 				sheetStrings = new ExcelParse().getExcelSheetNames(filePath);
 				sheetStrings.forEach((String sheetString) -> h2Config.createTableByName(sheetString));
-			} catch ( Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return table;
 		}
 		return table;
 	}
-	
-	@RequestMapping("/h2")
-	@ResponseBody
-	public String csvH2Test() throws Exception {
-		H2Config h2Config = new H2Config();
-		return h2Config.insertCsvFile("C:\\Users\\Administrator\\Desktop\\excelTest\\csv.csv");
-	}
-	
+
 	/**
 	 * csv文件上传导入的controller
+	 * 
 	 * @param file
 	 * @throws Exception
 	 */
 	@RequestMapping("/csv")
 	@ResponseBody
-	public void csvTest(@RequestParam("file") MultipartFile file) throws Exception {
+	public void csvTest(@RequestParam("file") MultipartFile file, String type) 
+			throws Exception {
 		CsvParse getCsvHeader = new CsvParse();
 		String filePath = fileUpload.fileUpload(file);
 		Field[] fields = getCsvHeader.getFields(filePath);
-		String tableName = filePath.substring(filePath.lastIndexOf("\\")+1, filePath.lastIndexOf("."));
-		if(!dbOperation.isExist(tableName)) {
-			if(dbOperation.createTable(tableName, fields)) System.out.println("创建表成功");
-		};
-		//存入数据库
+		String tableName = filePath.substring(filePath.lastIndexOf("\\") + 1, filePath.lastIndexOf("."));
+		if (!dbOperation.isExist(tableName)) {
+			if (dbOperation.createTable(tableName, fields))
+				System.out.println("创建表成功");
+		}
 		System.out.println(dbOperation.insertData(filePath));
-//		H2Config config = new H2Config();
-//		config.insertCsvFile(filePath);
 	}
 }

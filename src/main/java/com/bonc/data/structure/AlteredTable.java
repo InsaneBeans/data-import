@@ -9,6 +9,10 @@ package com.bonc.data.structure;
 public class AlteredTable {
 
 	/**
+	 * 操作文件的路径
+	 */
+	private String filePath;
+	/**
 	 * 表名
 	 */
 	private String tableName;
@@ -31,5 +35,13 @@ public class AlteredTable {
 
 	public void setFields(AlteredField[] fields) {
 		this.fields = fields;
+	}
+	
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 }

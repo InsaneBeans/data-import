@@ -7,7 +7,11 @@ package com.bonc.data.structure;
  *
  */
 public class Table {
-
+	
+	/**
+	 * 当前表的文件路径
+	 */
+	private String filePath;
 	/**
 	 * 表名
 	 */
@@ -31,5 +35,13 @@ public class Table {
 
 	public void setFields(Field[] fields) {
 		this.fields = fields;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 }
