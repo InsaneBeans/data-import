@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.bonc.data.file.FileType;
 import com.bonc.data.file.FileUtil;
+import com.bonc.data.structure.Field;
+import com.bonc.data.structure.Table;
 import com.bonc.data.util.NameUtil;
 import com.bonc.data.util.exception.DbException;
 
@@ -56,7 +58,7 @@ public class H2DbOperation extends AbstractDbOperation{
 	}
 
 	@Override
-	public boolean createTable(String tableName, DbField[] fields) {
+	public boolean createTable(String tableName, Field[] fields) {
 		StringBuilder sql = new StringBuilder("CREATE TABLE ");
 		Connection connection = new H2Config().getH2Connection();
 		Statement pStatement = null;
@@ -67,13 +69,13 @@ public class H2DbOperation extends AbstractDbOperation{
 			} else {
 				sql.append(tableName + "(");
 			}
-			for(DbField field: fields) {
+			for(Field field: fields) {
 				//中文字段的判断
 				if(!nameUtil.isChinese(field.getName())) {
-					sql.append(field.getName() +" "+ field.getType() + ",");
+					sql.append(field.getName() +" "+ field.getFieldType() + ",");
 				} else {
 					String newFieldName = nameUtil.generateColumnName(field);
-					sql.append(newFieldName +" "+ field.getType() + ",");
+					sql.append(newFieldName +" "+ field.getFieldType() + ",");
 				}
 			}
 			sql.deleteCharAt(sql.length() - 1);
@@ -91,7 +93,7 @@ public class H2DbOperation extends AbstractDbOperation{
 	}
 	
 	@Override
-	public boolean createTable(DbTable[] dbTables) {
+	public boolean createTable(Table[] tables) {
 		return false;
 	}
 

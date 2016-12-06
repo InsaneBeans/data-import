@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.bonc.data.dbconfig.DbField;
-import com.bonc.data.dbconfig.DbTable;
+import com.bonc.data.structure.Field;
+import com.bonc.data.structure.Table;
 
 /**
  * 字段和表格名称工具类
@@ -24,12 +24,12 @@ public class NameUtil {
 	/**
 	 * 字段名称映射
 	 */
-	private Map<DbField, String> columnNameMap = new HashMap<DbField, String>();
+	private Map<Field, String> columnNameMap = new HashMap<Field, String>();
 	
-	public List<String> getColumnName(DbTable dbTable){
-		DbField[] fields = dbTable.getFields();
+	public List<String> getColumnName(Table dbTable){
+		Field[] fields = dbTable.getFields();
 		List<String> columnList = new ArrayList<String>();
-		for(DbField field: fields){
+		for(Field field: fields){
 			if(isChinese(field.getName())){
 				columnList.add(generateColumnName(field));
 				columnNameMap.put(field, generateColumnName(field));
@@ -110,11 +110,11 @@ public class NameUtil {
 	 * @param columnName
 	 * @return
 	 */
-	public String generateColumnName(DbField dbField){
-		String fieldName = columnNameMap.get(dbField);
+	public String generateColumnName(Field field){
+		String fieldName = columnNameMap.get(field);
         if (fieldName == null) {
         	fieldName = "column_" + (++count);
-            columnNameMap.put(dbField, fieldName);
+            columnNameMap.put(field, fieldName);
         }
         return fieldName;  
 	}
@@ -133,7 +133,7 @@ public class NameUtil {
 	 * 获取字段映射后的对应关系
 	 * @return
 	 */
-	public Map<DbField, String> getFieldMap(){
+	public Map<Field, String> getFieldMap(){
 		return columnNameMap;
 	}
 }

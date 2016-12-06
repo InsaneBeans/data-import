@@ -4,6 +4,9 @@ import java.sql.Connection;
 
 import org.springframework.stereotype.Component;
 
+import com.bonc.data.structure.Field;
+import com.bonc.data.structure.Table;
+
 /**
  * 数据库操作接口
  * 
@@ -30,11 +33,11 @@ public interface DbOperation {
 	/**
 	 * 创建数据表
 	 */
-	boolean createTable(String tableName, DbField[] fields);
+	boolean createTable(String tableName, Field[] fields);
 	/**
 	 * 创建数据表
 	 */
-	boolean createTable(DbTable[] dbTables);
+	boolean createTable(Table[] tables);
 	/**
 	 * 数据插入
 	 */

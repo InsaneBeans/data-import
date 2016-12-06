@@ -2,9 +2,9 @@ package com.bonc.test.dbconfig;
 
 import org.junit.Test;
 
-import com.bonc.data.dbconfig.DbField;
-import com.bonc.data.dbconfig.DbTable;
-import com.bonc.data.dbconfig.FieldType;
+import com.bonc.data.structure.Field;
+import com.bonc.data.structure.FieldType;
+import com.bonc.data.structure.Table;
 import com.bonc.data.util.NameUtil;
 import com.bonc.data.util.serialize.JsonSerialIml;
 
@@ -12,15 +12,15 @@ public class TestDbColumn {
 	
 	@Test
 	public void testNameGenerate(){
-		DbField dbField1 = new DbField();
+		Field dbField1 = new Field();
 		dbField1.setName("数量");
-		dbField1.setType(FieldType.INT);
-		DbField dbField2 = new DbField();
+		dbField1.setFieldType(FieldType.INT);
+		Field dbField2 = new Field();
 		dbField2.setName("time");
-		dbField2.setType(FieldType.TIMESTAMP);
-		DbField[] fields = {dbField1, dbField2};
+		dbField2.setFieldType(FieldType.TIMESTAMP);
+		Field[] fields = {dbField1, dbField2};
 		
-		DbTable dbTable = new DbTable();
+		Table dbTable = new Table();
 		dbTable.setFields(fields);
 		dbTable.setTableName("test");
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
@@ -30,9 +30,9 @@ public class TestDbColumn {
 	
 	@Test
 	public void testGenerateName(){
-		DbField dbField1 = new DbField();
+		Field dbField1 = new Field();
 		dbField1.setName("数量");
-		dbField1.setType(FieldType.INT);
+		dbField1.setFieldType(FieldType.INT);
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		System.out.println(jsonSerialIml.serializeToString(
 				new NameUtil().generateColumnName(dbField1)));

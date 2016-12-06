@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 文件上传类
+ * 文件上传实现类
  * 
  * @author huh
  *
  */
 @Component
-public class FileUploadImpl implements FileUpload{
-	
+public class FileUploadImpl implements FileUpload {
+
 	/**
 	 * 文件在服务端存储的目录
 	 */
@@ -28,35 +28,36 @@ public class FileUploadImpl implements FileUpload{
 	 * 保存的文件对象
 	 */
 	private File savedFile;
-	
+
 	@Override
-	public boolean isEmpty(){
-		if(multiFile.isEmpty()){
+	public boolean isEmpty() {
+		if (multiFile.isEmpty()) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public File initFile() {
 		savedFile = new File(fileFullTempPath);
 		return savedFile;
 	};
-	
+
 	@Override
 	public String initFileSavePath() {
-		fileFullTempPath = System.getProperty("user.dir")+"\\"+"temp"+"\\"+multiFile.getOriginalFilename();
+		fileFullTempPath = System.getProperty("user.dir") + "\\" + "temp" 
+				+ "\\" + multiFile.getOriginalFilename();
 		return fileFullTempPath;
 	}
-	
+
 	@Override
 	public String initFileSavePath(String path) {
-		fileFullTempPath = path+multiFile.getOriginalFilename();
+		fileFullTempPath = path + multiFile.getOriginalFilename();
 		return fileFullTempPath;
 	}
-	
+
 	@Override
-	public String fileUpload(MultipartFile file){
+	public String fileUpload(MultipartFile file) {
 		multiFile = file;
 		File newFile = new File(this.initFileSavePath());
 		if (!file.isEmpty()) {
@@ -78,7 +79,7 @@ public class FileUploadImpl implements FileUpload{
 	@Override
 	public String deleteExistFile() {
 		File file = new File(this.initFileSavePath());
-		if(file.exists()) {
+		if (file.exists()) {
 			file.delete();
 		}
 		return null;
@@ -86,7 +87,7 @@ public class FileUploadImpl implements FileUpload{
 
 	@Override
 	public boolean isExist() {
-		if(savedFile.exists()) {
+		if (savedFile.exists()) {
 			return true;
 		}
 		return false;

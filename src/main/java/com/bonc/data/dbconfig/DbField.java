@@ -1,5 +1,7 @@
 package com.bonc.data.dbconfig;
 
+import com.bonc.data.structure.FieldType;
+
 /**
  * 数据表字段
  * 

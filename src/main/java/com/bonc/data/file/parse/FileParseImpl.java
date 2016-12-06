@@ -6,9 +6,10 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bonc.data.dbconfig.DbField;
 import com.bonc.data.file.FileType;
 import com.bonc.data.file.FileUtil;
+import com.bonc.data.structure.Field;
+import com.bonc.data.structure.Table;
 
 /**
  * 文件解析实现类
@@ -17,74 +18,53 @@ import com.bonc.data.file.FileUtil;
  *
  */
 @Component
-public class FileParseImpl extends AbstractFileParse{
-	
-	/**
-	 * 头信息结果
-	 */
-	private String headerResult;
-	/**
-	 * 文件类型
-	 */
-	private FileType fileType;
-	/**
-	 * 文件路径
-	 */
-	private String filePath;
-	/**
-	 * 上传的文件
-	 */
-	private MultipartFile file;
-	
-	public FileType getFielType() {
-		return fileType;
-	}
+public class FileParseImpl extends AbstractFileParse {
 
-	public void setFielType(FileType fileType) {
-		this.fileType = fileType;
-	}
-	
 	@Override
-	public FileType getFileType() {
+	public FileType getFileType(String filePath) {
 		FileUtil util = new FileUtil();
 		return util.fileTypeJudge(filePath);
 	}
 	
 	@Override
-	public String getFileHeader(String filePath) throws IOException{
-		headerResult = new ExcelParse().getExcelStructure(filePath);
-		return headerResult;
+	public List<Table> getMultiFileStructure(String filePath) throws IOException {
+		List<Table> tables = new ExcelParse().getMultiExcelStructure(filePath);
+		return tables;
+	}
+
+	@Override
+	public Table getSimpleFileStructure(String filePath) throws IOException {
+		Table table = new ExcelParse().getSimpleExcelStructure(filePath);
+		return table;
 	}
 
 	@Override
 	public List<String> getSheetNames(String filePath) {
 		FileUtil util = new FileUtil();
-		if(util.getFileSuffix(filePath).equals(FileType.CSV)) {
-			return null; //CSV文件的获取sheetname的方法
+		if (util.getFileSuffix(filePath).equals(FileType.CSV)) {
+			return null; // CSV文件的获取sheetname的方法
 		} else if (util.getFileSuffix(filePath).equals(FileType.EXCEL_2003)) {
-			return null; //excel2003的获取sheetnames方法
+			return null; // excel2003的获取sheetnames方法
 		} else {
-			return null; //excel2007的获取sheetnames方法
+			return null; // excel2007的获取sheetnames方法
 		}
 	}
 
 	@Override
-	public DbField[] getHeaderArray(MultipartFile multifile) {
-		this.file = multifile;
-		String fileName = file.getOriginalFilename();
+	public Field[] getFileHeaderArray(MultipartFile multifile) {
+		String fileName = multifile.getOriginalFilename();
 		FileUtil util = new FileUtil();
-		try{
-			if(util.fileTypeJudge(fileName).equals(FileType.CSV)) {
-				return new CsvParse().getDbFields(fileName);
-			} else if (util.fileTypeJudge(fileName).equals(FileType.EXCEL_2003)){
-				
-			} else if (util.fileTypeJudge(fileName).equals(FileType.EXCEL_2007)){
-				
+		try {
+			if (util.fileTypeJudge(fileName).equals(FileType.CSV)) {
+				return new CsvParse().getFields(fileName);
+			} else if (util.fileTypeJudge(fileName).equals(FileType.EXCEL_2003)) {
+				// 03版本的解析
+			} else if (util.fileTypeJudge(fileName).equals(FileType.EXCEL_2007)) {
+				// 07版本的解析
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 }

@@ -16,8 +16,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Component
 public class Reader {
 
@@ -125,14 +123,8 @@ public class Reader {
 		return null;
 	}
 
-	public String querySelect(String sql) {
-		String resultString = null;
-		try {
+	public ResultSet querySelect(String sql) throws SQLException {
 			ResultSet resultSet = sqlExecutor.executeQuery(sql);
-			resultString = new ObjectMapper().writeValueAsString(resultSet.getObject(1));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return resultString;
+			return resultSet;
 	}
 }

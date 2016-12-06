@@ -13,7 +13,7 @@ public class TestExcel {
 		String filePathString = "C:\\Users\\Administrator\\Desktop\\excelTest\\user.xlsx";
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		String reString = jsonSerialIml.serializeToString(excelParse.getExcelSheetNames(filePathString));
-		String re = jsonSerialIml.serializeToString(excelParse.getExcelStructure(filePathString));
+		String re = jsonSerialIml.serializeToString(excelParse.getSimpleExcelStructure(filePathString));
 		System.out.println(reString);
 		System.out.println(re);
 	}
