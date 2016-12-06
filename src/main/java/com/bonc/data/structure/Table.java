@@ -15,18 +15,18 @@ public class Table {
 	/**
 	 * 表名
 	 */
-	private String tableName;
+	private String name;
 	/**
 	 * 表字段
 	 */
 	private Field[] fields;
 
-	public String getTableName() {
-		return tableName;
+	public String getName() {
+		return name;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Field[] getFields() {

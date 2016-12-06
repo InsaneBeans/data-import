@@ -22,7 +22,7 @@ public class TestDbColumn {
 		
 		Table dbTable = new Table();
 		dbTable.setFields(fields);
-		dbTable.setTableName("test");
+		dbTable.setName("test");
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		System.out.println(jsonSerialIml.serializeToString(
 				new NameUtil().getColumnName(dbTable)));

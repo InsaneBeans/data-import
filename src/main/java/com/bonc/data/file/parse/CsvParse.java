@@ -56,7 +56,7 @@ public class CsvParse {
 		CSVReader csvReader = new CSVReader(fileReader);
 		Table table = new Table();
 		String tableName = filePath.substring(filePath.lastIndexOf("\\")+1, filePath.indexOf("."));
-		table.setTableName(tableName);
+		table.setName(tableName);
 		List<Field> fields = new ArrayList<Field>();
 		String[] strs = csvReader.readNext();
 		if (strs != null && strs.length > 0) {

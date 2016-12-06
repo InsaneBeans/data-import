@@ -76,7 +76,7 @@ public class ExcelParse {
         for(int sheetNum = 0; sheetNum < workbook.getNumberOfSheets(); sheetNum++){
         	Table table = new Table();
             Sheet sheet = workbook.getSheetAt(sheetNum);
-            table.setTableName(sheet.getSheetName());
+            table.setName(sheet.getSheetName());
             if(sheet.getLastRowNum() <= 0){
                 continue sheetReader;
             }
@@ -116,7 +116,7 @@ public class ExcelParse {
             workbook = new XSSFWorkbook(is);
         }
         Sheet sheet = workbook.getSheetAt(0);
-        table.setTableName(sheet.getSheetName());
+        table.setName(sheet.getSheetName());
         Row headRow = sheet.getRow(0);
         List<Field> fields = new ArrayList<Field>();
         int firstColumn = headRow.getFirstCellNum();

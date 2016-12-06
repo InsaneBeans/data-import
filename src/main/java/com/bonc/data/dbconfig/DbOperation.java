@@ -4,7 +4,6 @@ import java.sql.Connection;
 
 import org.springframework.stereotype.Component;
 
-import com.bonc.data.structure.Field;
 import com.bonc.data.structure.Table;
 
 /**
@@ -22,20 +21,11 @@ public interface DbOperation {
 	 */
 	Connection getConnection();
 	/**
-	 * 创建数据库
-	 * @return
+	 * 创建单个数据表
 	 */
-	boolean createDb(String dbName);
+	boolean createTable(Table table);
 	/**
-	 * 创建数据表
-	 */
-	boolean createTable(String tableName);
-	/**
-	 * 创建数据表
-	 */
-	boolean createTable(String tableName, Field[] fields);
-	/**
-	 * 创建数据表
+	 * 创建多个数据表
 	 */
 	boolean createTable(Table[] tables);
 	/**
