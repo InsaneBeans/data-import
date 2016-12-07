@@ -1,4 +1,4 @@
-package com.bonc.data.dbconfig;
+package com.bonc.data.dboperation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -116,17 +116,7 @@ public class H2DbOperation implements DbOperation {
 	}
 
 	@Override
-	public String selectData() {
-		return null;
-	}
-
-	@Override
 	public boolean deleteTable() {
-		return false;
-	}
-
-	@Override
-	public boolean deleteData() {
 		return false;
 	}
 

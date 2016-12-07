@@ -83,18 +83,15 @@ public class Reader {
 				}
 				sqlExecutor.execute(createSql);
 				ResultSet rs = sqlExecutor.executeQuery("select * from " + sheetName);
-				// int minColIdx = row0.getFirstCellNum();
-				// int maxColIdx = row0.getLastCellNum();
 				int count = 0;
-				// 是否在第一行
-				boolean infirstrow = true;
+				boolean infirstrow = true; //是否在第一行
 				for (Row row : sheet) {
 					if (infirstrow) {
 						infirstrow = false;
 						continue;
 					}
 					rs.moveToInsertRow();
-					System.out.println("insert " + count++);
+					System.out.println("inserted 第 " + count++ +" 行");
 					for (Cell cell : row) {
 						if (cell == null) {
 							continue;

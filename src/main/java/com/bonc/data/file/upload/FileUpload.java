@@ -1,7 +1,5 @@
 package com.bonc.data.file.upload;
 
-import java.io.File;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,32 +16,18 @@ public interface FileUpload {
 	 * @param file
 	 * @return 返回完整的文件存储路径
 	 */
-	String fileUpload(MultipartFile file);
+	String fileUpload(MultipartFile multiFile);
 	/**
 	 * 删除已存在的文件
 	 * @return
 	 */
-	String deleteExistFile();
+	String deleteExistFile(String fileName);
 	/**
 	 * 文件是否为空
 	 */
-	boolean isEmpty();
-	/**
-	 * 文件是否存在
-	 * @return
-	 */
-	boolean isExist();
+	boolean isEmpty(MultipartFile multiFile);
 	/**
 	 * 初始化文件路径
 	 */
 	String initFileSavePath();
-	/**
-	 * 初始化文件路径
-	 */
-	String initFileSavePath(String path);
-	/**
-	 * 初始化文件对象
-	 * @return
-	 */
-	File initFile();
 }

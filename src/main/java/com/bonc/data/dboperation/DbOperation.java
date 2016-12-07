@@ -1,4 +1,4 @@
-package com.bonc.data.dbconfig;
+package com.bonc.data.dboperation;
 
 import java.sql.Connection;
 
@@ -33,20 +33,10 @@ public interface DbOperation {
 	 */
 	String insertData(String filePath);
 	/**
-	 * 数据查询
-	 * @return
-	 */
-	String selectData();
-	/**
 	 * 删除表格
 	 * @return
 	 */
 	boolean deleteTable();
-	/**
-	 * 删除数据
-	 * @return
-	 */
-	boolean deleteData();
 	/**
 	 * 判断数据表是否存在
 	 * @return

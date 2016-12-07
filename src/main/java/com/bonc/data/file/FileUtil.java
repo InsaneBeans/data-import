@@ -25,9 +25,10 @@ public class FileUtil {
 		}
 		return CommonValue.EMPTY_CONTENT;
 	}
-	
+
 	/**
 	 * 文件类型判断
+	 * 
 	 * @param filePath
 	 * @return
 	 */
@@ -35,11 +36,14 @@ public class FileUtil {
 		if (filePath == null || CommonValue.EMPTY_CONTENT.equals(filePath.trim())) {
 			return null;
 		}
-		switch(getFileSuffix(filePath)) {
-		case "xlsx": return FileType.EXCEL_2007; 
-		case "xls": return FileType.EXCEL_2003;
-		case "csv": return FileType.CSV;
+		switch (getFileSuffix(filePath)) {
+		case "xlsx":
+			return FileType.EXCEL_2007;
+		case "xls":
+			return FileType.EXCEL_2003;
+		case "csv":
+			return FileType.CSV;
 		}
 		return null;
-	}	
+	}
 }

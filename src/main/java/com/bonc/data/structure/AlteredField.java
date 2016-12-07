@@ -5,7 +5,7 @@ public class AlteredField {
 	/**
 	 * 原来字段的名称
 	 */
-	private String origenalName;
+	private String originalName;
 	/**
 	 * 字段名称
 	 */
@@ -19,12 +19,12 @@ public class AlteredField {
 	 */
 	private boolean isInsert;
 
-	public String getOrigenalName() {
-		return origenalName;
+	public String getOriginalName() {
+		return originalName;
 	}
 
-	public void setOrigenalName(String origenalName) {
-		this.origenalName = origenalName;
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
 	}
 
 	public String getName() {
