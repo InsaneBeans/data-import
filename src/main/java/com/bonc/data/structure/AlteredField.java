@@ -1,13 +1,19 @@
 package com.bonc.data.structure;
 
+/**
+ * 更改之后的字段
+ * 
+ *@author huh
+ *
+ */
 public class AlteredField {
 
 	/**
-	 * 原来字段的名称
+	 * 字段原来的名称
 	 */
 	private String originalName;
 	/**
-	 * 字段名称
+	 * 当前字段名称（存入数据库）
 	 */
 	private String name;
 	/**

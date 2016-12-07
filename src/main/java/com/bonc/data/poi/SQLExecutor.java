@@ -37,7 +37,7 @@ public class SQLExecutor {
 			Connection conn = this.getH2Connection();
 			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, 
 					ResultSet.CONCUR_UPDATABLE);
-			if (statement.execute(sql)) {
+			if (!statement.execute(sql)) {
 				return "执行成功:" + sql;
 			}
 		} catch (Exception e) {
