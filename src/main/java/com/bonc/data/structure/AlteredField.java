@@ -3,7 +3,7 @@ package com.bonc.data.structure;
 /**
  * 更改之后的字段
  * 
- *@author huh
+ * @author huh
  *
  */
 public class AlteredField {
@@ -24,6 +24,10 @@ public class AlteredField {
 	 * 字段是否导入数据库
 	 */
 	private boolean isInsert;
+	/**
+	 * 索引号
+	 */
+	private int indexNo;
 
 	public String getOriginalName() {
 		return originalName;
@@ -55,5 +59,13 @@ public class AlteredField {
 
 	public void setInsert(boolean isInsert) {
 		this.isInsert = isInsert;
+	}
+
+	public int getIndexNo() {
+		return indexNo;
+	}
+
+	public void setIndexNo(int indexNo) {
+		this.indexNo = indexNo;
 	}
 }

@@ -124,6 +124,7 @@ public class ExcelParse {
 		for (int i = firstColumn; i < lastColumn; i++) {
 			String cellValue = CellType.getStringVal(headRow.getCell(i));
 			Field field = new Field();
+			field.setIndexNo(i);
 			field.setName(cellValue);
 			field.setFieldType(FieldType.VARCHAR);
 			fields.add(field);

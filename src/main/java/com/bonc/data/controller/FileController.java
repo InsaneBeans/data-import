@@ -11,10 +11,8 @@ import com.bonc.data.dboperation.DbOperation;
 import com.bonc.data.file.parse.CsvParse;
 import com.bonc.data.file.parse.ExcelInsert;
 import com.bonc.data.file.upload.FileUpload;
-import com.bonc.data.structure.AlteredField;
 import com.bonc.data.structure.AlteredTable;
 import com.bonc.data.structure.Field;
-import com.bonc.data.structure.FieldType;
 import com.bonc.data.structure.Table;
 
 @Controller
@@ -31,27 +29,12 @@ public class FileController {
 		Table table = null;
 		return table;
 	}
-
+	
 	@RequestMapping("/excel/insert")
-	public void excelIsnert() throws Exception {
-		AlteredTable table = new AlteredTable();
-		table.setFilePath("C:\\Users\\Administrator\\Desktop\\excelTest\\excel\\insert.xlsx");
-		table.setTableName("testInsert");
-
-		AlteredField field1 = new AlteredField();
-		field1.setFieldType(FieldType.VARCHAR);
-		field1.setInsert(false);
-		field1.setName("field1");
-		field1.setOriginalName("姓名");
-
-		AlteredField field2 = new AlteredField();
-		field2.setFieldType(FieldType.VARCHAR);
-		field2.setInsert(false);
-		field2.setName("field2");
-		field2.setOriginalName("年龄");
-		table.setFields(new AlteredField[] { field1, field2 });
-		ExcelInsert excelInsert = new ExcelInsert();
-		excelInsert.tableCreate(table);
+	@ResponseBody
+	public void insert(@RequestParam("table") AlteredTable table) throws Exception {
+		ExcelInsert insert = new ExcelInsert();
+		insert.tableCreate(table);
 	}
 
 	/**

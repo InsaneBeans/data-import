@@ -8,13 +8,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.bonc.data.file.FileType;
+import com.bonc.data.file.FileUtil;
 import com.bonc.data.poi.SQLExecutor;
 import com.bonc.data.structure.AlteredField;
 import com.bonc.data.structure.AlteredTable;
@@ -28,28 +32,32 @@ import com.bonc.data.structure.AlteredTable;
 @Component
 public class ExcelInsert {
 
+	@Autowired
+	private SQLExecutor sqlExecutor;
+
 	public void tableCreate(AlteredTable alteredTable) throws Exception {
 
-		SQLExecutor sqlExecutor = new SQLExecutor();
-		// 得到更改后的列对象数组
 		AlteredField[] alteredFields = alteredTable.getFields();
-		// 获得对应文件的位置
 		String filePath = alteredTable.getFilePath();
-		// 获得更改后提交的表格名称，用于数据表的创建
 		String tableName = alteredTable.getTableName();
-
+		FileUtil fileUtil = new FileUtil();
+		
 		// 构建数据表的创建SQL语句
 		StringBuilder createSql = new StringBuilder("CREATE TABLE ");
 		createSql.append(tableName + "( ID INT PRIMARY KEY AUTO_INCREMENT,");
 
-		// 列名和列类型
+		// 添加列名和列类型
 		for (AlteredField alteredField : alteredFields) {
-			createSql.append(alteredField.getName() + " " + alteredField.getFieldType() + ",");
+			//如果要插入改行语句，则把SQL语句加上该行的创建语句中
+			if (alteredField.isInsert()) {  
+				createSql.append(alteredField.getName() + " " + alteredField.getFieldType() + ",");
+			} else {
+				continue;
+			}
 		}
 		createSql.deleteCharAt(createSql.length() - 1);
 		createSql.append(")");
-		// 创建表格完毕。以下是插入数据的操作。
-		// 执行创建表
+		
 		System.out.println(sqlExecutor.execute(createSql.toString()));
 
 		// 创建数据库字段和文件中字段的映射
@@ -66,16 +74,22 @@ public class ExcelInsert {
 		String[] dbFields = dbFieldNames.toArray(new String[dbFieldNames.size()]);
 		// 以上生成的语句是："insert into tableName (field1,field2,field3...) values ("
 		// 开始填充字段的值，填充字段根据字段的顺序和字段的映射值
-//		Iterator<Map<String, String>> iterator = listNameMaps.iterator();
-//		while (iterator.hasNext()) {
-//			Map<String, String> nameMap = iterator.next();
-//		}
+		// Iterator<Map<String, String>> iterator = listNameMaps.iterator();
+		// while (iterator.hasNext()) {
+		// Map<String, String> nameMap = iterator.next();
+		// }
 
 		// 文件读取
-		Workbook wb;
+		Workbook wb = null;
 		File file = new File(filePath);
 		InputStream is = new FileInputStream(file);
-		wb = new XSSFWorkbook(is);
+		// 判断文件类型
+		if (fileUtil.fileTypeJudge(filePath) == FileType.EXCEL_2007) {
+			wb = new XSSFWorkbook(is);
+		} else if (fileUtil.fileTypeJudge(filePath) == FileType.EXCEL_2003) {
+			wb = new HSSFWorkbook(is);
+		}
+		// 这里的
 		Sheet[] sheets = new Sheet[wb.getNumberOfSheets()];
 		for (int j = 0; j < wb.getNumberOfSheets(); j++) {
 			sheets[j] = wb.getSheetAt(j);
@@ -86,7 +100,7 @@ public class ExcelInsert {
 				//
 				// 此处添加表头在第几行的选择
 				//
-				if(isFirstRow){
+				if (isFirstRow) { // 判断是否在第一行
 					isFirstRow = false;
 					continue;
 				}
@@ -97,7 +111,7 @@ public class ExcelInsert {
 				}
 				insertSql.deleteCharAt(insertSql.length() - 1); // 删除最后一个逗号
 				insertSql.append(") values (");
-				
+
 				for (Cell cell : row) {
 					if (cell == null) {
 						continue;
@@ -111,17 +125,14 @@ public class ExcelInsert {
 					case Cell.CELL_TYPE_BOOLEAN:
 						insertSql.append("'" + (int) cell.getNumericCellValue() + "',");
 						break;
-					default :
+					default:
 						insertSql.append("'" + cell.getStringCellValue() + "',");
 					}
-
 				}
 				insertSql.deleteCharAt(insertSql.length() - 1);
 				insertSql.append(");");
 				sqlExecutor.execute(insertSql.toString());
 			}
 		}
-		// 读取第一个页签
-		// 第一行（如果带有选择的行数，这里的0就代表了表头所在的行数）
 	}
 }

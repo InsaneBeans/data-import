@@ -1,5 +1,14 @@
 package com.bonc.data.file;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.bonc.data.util.CommonValue;
 
 /**
@@ -9,6 +18,8 @@ import com.bonc.data.util.CommonValue;
  *
  */
 public class FileUtil {
+	
+	private Logger logger = null;
 
 	/**
 	 * 通过路径获取文件后缀
@@ -45,5 +56,31 @@ public class FileUtil {
 			return FileType.CSV;
 		}
 		return null;
+	}
+	
+	/**
+	 * 获取EXCEL工作簿
+	 * 
+	 * @param filePath
+	 * @return
+	 */
+	public Workbook getExcelWorkbook(String filePath) {
+		Workbook wb = null;
+		try{
+			InputStream is = new FileInputStream(new File(filePath));
+			switch(fileTypeJudge(filePath)){
+			case EXCEL_2003:
+				wb = new HSSFWorkbook(is);
+				break;
+			case EXCEL_2007:
+				wb = new XSSFWorkbook(is);
+				break;
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		}
+		return wb;
 	}
 }

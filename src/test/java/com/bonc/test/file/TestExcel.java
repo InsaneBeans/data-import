@@ -10,7 +10,7 @@ public class TestExcel {
 	@Test
 	public void testExcel() throws Exception {
 		ExcelParse excelParse = new ExcelParse();
-		String filePathString = "C:\\Users\\Administrator\\Desktop\\excelTest\\user.xlsx";
+		String filePathString = "C:\\Users\\Administrator\\Desktop\\excelTest\\users.xlsx";
 		JsonSerialIml jsonSerialIml = new JsonSerialIml();
 		String reString = jsonSerialIml.serializeToString(excelParse.getExcelSheetNames(filePathString));
 		String re = jsonSerialIml.serializeToString(excelParse.getSimpleExcelStructure(filePathString));

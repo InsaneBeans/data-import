@@ -13,7 +13,6 @@ import com.bonc.data.file.FileType;
 import com.bonc.data.file.FileUtil;
 import com.bonc.data.structure.Field;
 import com.bonc.data.structure.Table;
-import com.bonc.data.util.exception.DbException;
 
 /**
  * h2数据库操作实现类
@@ -54,7 +53,7 @@ public class H2DbOperation implements DbOperation {
 			if (Statement.executeUpdate(sql.toString()) == 0) {
 				logger.info("表" + tableName + "创建成功:" + sql);
 			} else {
-				throw new DbException("创建数据表失败");
+				throw new Exception("创建数据表失败");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,7 +80,7 @@ public class H2DbOperation implements DbOperation {
 				if (Statement.executeUpdate(sql.toString()) == 0) {
 					logger.info("表" + tableName + "创建成功:" + sql);
 				} else {
-					throw new DbException("创建数据表失败");
+					throw new Exception("创建数据表失败");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

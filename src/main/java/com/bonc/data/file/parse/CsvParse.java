@@ -1,8 +1,10 @@
 package com.bonc.data.file.parse;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -30,7 +32,7 @@ public class CsvParse {
 	public Field[] getFields(String filePath) throws Exception {
 		FileReader fileReader = new FileReader(new File(filePath));
 		CSVReader csvReader = new CSVReader(fileReader);
-		String[] strs = csvReader.readNext();
+		String[] strs = csvReader.readNext();  //readNext表示读取下一行
 		Field[] fields = Stream.of(strs).map(str -> {
 			Field field = new Field();
 			field.setName(str);
@@ -78,12 +80,22 @@ public class CsvParse {
 	}
 
 	/**
-	 * 读取Csv文件内容
+	 * 读取Csv文件内容, 生成SQL语句
 	 * 
 	 * @param alteredTable
 	 *            更改后的表结构对象
 	 */
-	public void readCsvContent(AlteredTable alteredTable) {
-
+	public void getCsvInsert(AlteredTable alteredTable) throws Exception {
+		String filePath = alteredTable.getFilePath();
+		File csv = new File(filePath);
+		InputStream is = new FileInputStream(csv);
+		CsvParse parser = new CsvParse();
+		
+	}
+	
+	public List<String> getListStrings(String buff){
+		List<String>  lists = new ArrayList<String>();
+		lists.add(buff.substring(0, buff.indexOf(",")));
+		return lists;
 	}
 }

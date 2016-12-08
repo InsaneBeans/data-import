@@ -16,6 +16,10 @@ public class Field {
 	 * 字段类型
 	 */
 	private FieldType fieldType;
+	/**
+	 * 索引号
+	 */
+	private int indexNo;
 
 	public String getName() {
 		return name;
@@ -31,5 +35,13 @@ public class Field {
 
 	public void setFieldType(FieldType fieldType) {
 		this.fieldType = fieldType;
+	}
+
+	public int getIndexNo() {
+		return indexNo;
+	}
+
+	public void setIndexNo(int indexNo) {
+		this.indexNo = indexNo;
 	}
 }
