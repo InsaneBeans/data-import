@@ -17,6 +17,10 @@ public class Field {
 	 */
 	private FieldType fieldType;
 	/**
+	 * 字段是否导入数据库
+	 */
+	private boolean isInsert;
+	/**
 	 * 索引号
 	 */
 	private int indexNo;
@@ -43,5 +47,13 @@ public class Field {
 
 	public void setIndexNo(int indexNo) {
 		this.indexNo = indexNo;
+	}
+
+	public boolean isInsert() {
+		return isInsert;
+	}
+
+	public void setInsert(boolean isInsert) {
+		this.isInsert = isInsert;
 	}
 }

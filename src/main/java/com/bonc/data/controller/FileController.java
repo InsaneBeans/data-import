@@ -50,9 +50,29 @@ public class FileController {
 		insert.tableCreate(table);
 	}
 
-	@RequestMapping("/excel/insert")
+	@RequestMapping("/csv/insert")
 	@ResponseBody
-	public void insert(@RequestParam("table") AlteredTable table) throws Exception {
+	public void insert() throws Exception {
+		AlteredTable table = new AlteredTable();
+		table.setFilePath("C:\\Users\\Administrator\\Desktop\\excelTest\\csv1.csv");
+		table.setTableName("testInsert");
+
+		AlteredField field1 = new AlteredField();
+		field1.setFieldType(FieldType.VARCHAR);
+		field1.setInsert(true);
+		field1.setName("field1");
+		field1.setOriginalName("姓名");
+		field1.setIndexNo(0);
+
+		AlteredField field2 = new AlteredField();
+		field2.setFieldType(FieldType.VARCHAR);
+		field2.setInsert(true);
+		field2.setName("field2");
+		field2.setOriginalName("年龄");
+		field2.setIndexNo(1);
+		table.setFields(new AlteredField[] { field1, field2 });
+		CsvParse csvParse = new CsvParse();
+		csvParse.getCsvInsert(table);
 	}
 
 	/**

@@ -37,7 +37,6 @@ public class CsvTest {
 				}
 			}
 		}
-
 		return dataList;
 	}
 }
