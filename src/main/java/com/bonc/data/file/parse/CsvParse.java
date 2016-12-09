@@ -1,12 +1,9 @@
 package com.bonc.data.file.parse;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import com.bonc.data.poi.SQLExecutor;
 import com.bonc.data.structure.AlteredField;
@@ -14,8 +11,6 @@ import com.bonc.data.structure.AlteredTable;
 import com.bonc.data.structure.Field;
 import com.bonc.data.structure.FieldType;
 import com.bonc.data.structure.Table;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * Csv文件解析类
@@ -25,31 +20,8 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 public class CsvParse {
 
-//	@Autowired
-//	private SQLExecutor sqlExecutor;
-
-	/**
-	 * firstTime，获取字段信息，实现维度和度量的读取
-	 * 
-	 * @return 字段数组
-	 */
-	public Field[] getFields(String filePath) throws Exception {
-		FileReader fileReader = new FileReader(new File(filePath));
-		CSVReader csvReader = new CSVReader(fileReader);
-		String[] strs = csvReader.readNext(); // readNext表示读取下一行
-		Field[] fields = Stream.of(strs).map(str -> {
-			Field field = new Field();
-			field.setName(str);
-			field.setFieldType(FieldType.VARCHAR);
-			try {
-				csvReader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return field;
-		}).toArray(Field[]::new);
-		return fields;
-	}
+	// @Autowired
+	// private SQLExecutor sqlExecutor;
 
 	/**
 	 * firstTime，获取Csv文件表头信息,用于返回到前台显示并更改字段信息等
@@ -59,31 +31,33 @@ public class CsvParse {
 	 * @throws Exception
 	 */
 	public Table getHeaderInfo(String filePath) throws Exception {
-		FileReader fileReader = new FileReader(new File(filePath));
-		CSVReader csvReader = new CSVReader(fileReader);
+		BufferedReader reader = new BufferedReader(new FileReader(filePath));
+		String line = null;
 		Table table = new Table();
 		String tableName = filePath.substring(filePath.lastIndexOf("\\") + 1, filePath.indexOf("."));
 		table.setName(tableName);
+		table.setFilePath(filePath);
 		List<Field> fields = new ArrayList<Field>();
-		String[] strs = csvReader.readNext();
-		if (strs != null && strs.length > 0) {
-			int i = 0;
-			for (String str : strs) {
-				if (null != str && !str.equals("")) {
+		boolean isFirstLine = true;
+		int fieldIndex = 0;
+		while ((line = reader.readLine()) != null) {
+			if (isFirstLine) {
+				String items[] = line.split(",");
+				for (String item : items) {
 					Field field = new Field();
-					field.setName(str);
-					field.setIndexNo(i);
-					field.setInsert(true);
+					field.setName(item);
 					field.setFieldType(FieldType.VARCHAR);
+					field.setIndexNo(fieldIndex);
+					field.setInsert(true);
 					fields.add(field);
-					i++;
+					fieldIndex++;
 				}
+			} else {
+				reader.close();
+				break;
 			}
 		}
-		// 关闭Csv解读器
-		csvReader.close();
-		Field[] fieldss = fields.toArray(new Field[fields.size()]);
-		table.setFields(fieldss);
+		table.setFields(fields.toArray(new Field[fields.size()]));
 		return table;
 	}
 
@@ -93,7 +67,7 @@ public class CsvParse {
 	 * @param alteredTable
 	 *            更改后的表结构对象
 	 */
-	public void getCsvInsert(AlteredTable alteredTable) throws Exception {
+	public void csvInsert(AlteredTable alteredTable) throws Exception {
 		// 首先生成一个创建数据表的语句
 		SQLExecutor sqlExecutor = new SQLExecutor();
 		StringBuilder createSql = new StringBuilder("CREATE TABLE " + alteredTable.getTableName());
@@ -123,7 +97,7 @@ public class CsvParse {
 		boolean isFirstLine = true;
 		List<String> multiInsertSql = new ArrayList<String>();
 		while ((line = reader.readLine()) != null) {
-			if(isFirstLine){
+			if (isFirstLine) {
 				isFirstLine = false;
 				continue;
 			}
@@ -134,17 +108,11 @@ public class CsvParse {
 				String str = item[indexNo];
 				everyLine.append("'" + str + "'" + ",");
 			}
-			everyLine.deleteCharAt(everyLine.length()-1);
+			everyLine.deleteCharAt(everyLine.length() - 1);
 			everyLine.append(")");
 			multiInsertSql.add(everyLine.toString());
 		}
 		reader.close();
 		sqlExecutor.multiExecute(multiInsertSql);
-	}
-
-	public List<String> getListStrings(String buff) {
-		List<String> lists = new ArrayList<String>();
-		lists.add(buff.substring(0, buff.indexOf(",")));
-		return lists;
 	}
 }

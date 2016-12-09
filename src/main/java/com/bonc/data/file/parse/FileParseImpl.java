@@ -56,7 +56,7 @@ public class FileParseImpl extends AbstractFileParse {
 		FileUtil util = new FileUtil();
 		try {
 			if (util.fileTypeJudge(fileName).equals(FileType.CSV)) {
-				return new CsvParse().getFields(fileName);
+				return null;
 			} else if (util.fileTypeJudge(fileName).equals(FileType.EXCEL_2003)) {
 				// 03版本的解析
 			} else if (util.fileTypeJudge(fileName).equals(FileType.EXCEL_2007)) {
