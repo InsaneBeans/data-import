@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -35,10 +36,29 @@ public class SQLExecutor {
 	public String execute(String sql) {
 		try {
 			Connection conn = this.getH2Connection();
-			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, 
-					ResultSet.CONCUR_UPDATABLE);
+			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			if (!statement.execute(sql)) {
 				return "执行成功:" + sql;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 批量执行SQL语句
+	 * 
+	 * @param sqls
+	 * @return
+	 */
+	public String multiExecute(List<String> sqls) {
+		try {
+			Connection conn = this.getH2Connection();
+			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			for (String sql : sqls) {
+				statement.execute(sql);
+				System.out.println("执行成功:" + sql);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,8 +75,7 @@ public class SQLExecutor {
 	public ResultSet executeQuery(String query) {
 		try {
 			Connection conn = getH2Connection();
-			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, 
-					ResultSet.CONCUR_UPDATABLE);
+			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			return statement.executeQuery(query);
 		} catch (Exception e) {
 			e.printStackTrace();

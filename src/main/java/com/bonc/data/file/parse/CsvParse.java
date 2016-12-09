@@ -32,7 +32,7 @@ public class CsvParse {
 	public Field[] getFields(String filePath) throws Exception {
 		FileReader fileReader = new FileReader(new File(filePath));
 		CSVReader csvReader = new CSVReader(fileReader);
-		String[] strs = csvReader.readNext();  //readNext表示读取下一行
+		String[] strs = csvReader.readNext(); // readNext表示读取下一行
 		Field[] fields = Stream.of(strs).map(str -> {
 			Field field = new Field();
 			field.setName(str);
@@ -90,11 +90,11 @@ public class CsvParse {
 		File csv = new File(filePath);
 		InputStream is = new FileInputStream(csv);
 		CsvParse parser = new CsvParse();
-		
+
 	}
-	
-	public List<String> getListStrings(String buff){
-		List<String>  lists = new ArrayList<String>();
+
+	public List<String> getListStrings(String buff) {
+		List<String> lists = new ArrayList<String>();
 		lists.add(buff.substring(0, buff.indexOf(",")));
 		return lists;
 	}
