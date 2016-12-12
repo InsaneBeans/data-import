@@ -82,4 +82,23 @@ public class SQLExecutor {
 		}
 		return null;
 	}
+
+	/**
+	 * 判断数据表是否存在
+	 * 
+	 * @param tableName
+	 * @return
+	 */
+	public boolean isTableExist(String tableName) {
+		try {
+			Connection conn = getH2Connection();
+			ResultSet rs = conn.getMetaData().getTables(null, null, tableName, null);
+			if (!rs.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

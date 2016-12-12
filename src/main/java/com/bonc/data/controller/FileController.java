@@ -2,9 +2,7 @@ package com.bonc.data.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.bonc.data.file.parse.CsvParse;
 import com.bonc.data.file.parse.ExcelInsertWithIndexNo;
@@ -63,17 +61,5 @@ public class FileController {
 		table.setFields(new AlteredField[] { field1, field2 });
 		CsvParse csvParse = new CsvParse();
 		csvParse.csvInsert(table);
-	}
-
-	/**
-	 * csv文件上传导入的controller
-	 * 
-	 * @param file
-	 * @throws Exception
-	 */
-	@RequestMapping("/csv")
-	@ResponseBody
-	public void csvTest(@RequestParam("file") MultipartFile file) throws Exception {
-		
 	}
 }

@@ -54,7 +54,7 @@ public class TestAlteredTableCreate {
     public void testDetailQuery() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         System.out.println(
-                mockMvc.perform(post("/excel/insert").contentType("application/json")
+                mockMvc.perform(post("/excel/test").contentType("application/json")
                         .content(objectMapper.writeValueAsString(getAlteredTable()))).andReturn().getResponse()
                         .getContentAsString());
     }

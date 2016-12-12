@@ -20,11 +20,8 @@ import com.bonc.data.structure.Table;
  */
 public class CsvParse {
 
-	// @Autowired
-	// private SQLExecutor sqlExecutor;
-
 	/**
-	 * firstTime，获取Csv文件表头信息,用于返回到前台显示并更改字段信息等
+	 * 获取Csv文件表头信息,用于返回到前台显示并更改字段信息等
 	 * 
 	 * @param filePath
 	 * @return 表结构对象
@@ -62,15 +59,21 @@ public class CsvParse {
 	}
 
 	/**
-	 * 读取Csv文件内容, 生成SQL语句
+	 * 读取Csv文件内容, 生成多条SQL语句，包括创建表和数据插入的语句
 	 * 
 	 * @param alteredTable
 	 *            更改后的表结构对象
 	 */
 	public void csvInsert(AlteredTable alteredTable) throws Exception {
-		// 首先生成一个创建数据表的语句
 		SQLExecutor sqlExecutor = new SQLExecutor();
-		StringBuilder createSql = new StringBuilder("CREATE TABLE " + alteredTable.getTableName());
+		StringBuilder createSql = new StringBuilder("CREATE TABLE ");
+		if (sqlExecutor.isTableExist(alteredTable.getTableName())) {
+			String newTableName = alteredTable.getTableName() + "_1";
+			createSql.append(newTableName);
+			alteredTable.setTableName(newTableName);
+		} else {
+			createSql.append(alteredTable.getTableName());
+		}
 		StringBuilder insertSql = new StringBuilder("INSERT INTO " + alteredTable.getTableName() + "(");
 		createSql.append("( ID INT PRIMARY KEY AUTO_INCREMENT,");
 		AlteredField[] alteredFields = alteredTable.getFields();
@@ -88,7 +91,7 @@ public class CsvParse {
 		createSql.append(")");
 		insertSql.deleteCharAt(insertSql.length() - 1);
 		insertSql.append(") VALUES (");
-		sqlExecutor.execute(createSql.toString()); // 执行创建表的语句。
+		sqlExecutor.execute(createSql.toString()); // 执行创建表语句。
 
 		// 开始读取文件
 		String filePath = alteredTable.getFilePath();
@@ -103,7 +106,7 @@ public class CsvParse {
 			}
 			StringBuilder everyLine = new StringBuilder("");
 			everyLine.append(insertSql);
-			String item[] = line.split(",");// CSV格式文件为逗号分隔符文件，这里根据逗号切分
+			String item[] = line.split(","); // CSV格式文件为逗号分隔符文件，这里根据逗号切分
 			for (int indexNo : indexNos) {
 				String str = item[indexNo];
 				everyLine.append("'" + str + "'" + ",");

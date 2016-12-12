@@ -13,7 +13,7 @@ public class FileConfig {
 	 */
 	private int headerRow;
 	/**
-	 * 指定类型，多页签对应同一个表为1，每个页签为同一个表为2
+	 * 指定类型，多页签对应同一个表为类型1，每个页签对应一个表为类型2
 	 */
 	private int type;
 
