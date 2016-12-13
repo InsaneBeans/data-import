@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.bonc.data.Application;
-import com.bonc.data.structure.AlteredField;
-import com.bonc.data.structure.AlteredTable;
+import com.bonc.data.structure.Field;
+import com.bonc.data.structure.Table;
 import com.bonc.data.structure.FieldType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,23 +30,21 @@ public class TestAlteredTableCreate {
     private ObjectMapper objectMapper;
 
 	@Bean
-	public AlteredTable getAlteredTable() {
-		AlteredTable table = new AlteredTable();
+	public Table getAlteredTable() {
+		Table table = new Table();
 		table.setFilePath("C:\\Users\\Administrator\\Desktop\\excelTest\\excel\\insert.xlsx");
 		table.setTableName("testInsert");
 
-		AlteredField field1 = new AlteredField();
+		Field field1 = new Field();
 		field1.setFieldType(FieldType.VARCHAR);
 		field1.setInsert(false);
 		field1.setName("field1");
-		field1.setOriginalName("姓名");
 
-		AlteredField field2 = new AlteredField();
+		Field field2 = new Field();
 		field2.setFieldType(FieldType.VARCHAR);
 		field2.setInsert(false);
 		field2.setName("field2");
-		field2.setOriginalName("年龄");
-		table.setFields(new AlteredField[] { field1, field2 });
+		table.setFields(new Field[] { field1, field2 });
 		return table;
 	}
 	

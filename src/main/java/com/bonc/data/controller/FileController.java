@@ -1,65 +1,91 @@
 package com.bonc.data.controller;
 
-import org.springframework.stereotype.Controller;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.bonc.data.file.parse.CsvParse;
-import com.bonc.data.file.parse.ExcelInsertWithIndexNo;
-import com.bonc.data.structure.AlteredField;
-import com.bonc.data.structure.AlteredTable;
-import com.bonc.data.structure.FieldType;
+import com.bonc.data.file.parse.ExcelParse;
+import com.bonc.data.structure.Table;
 
-@Controller
+/**
+ * 文件数据源解析HTTP接口
+ * 
+ * @author huh
+ *
+ */
+@RestController
 public class FileController {
-	
-	@RequestMapping("/excel/simple")
-	@ResponseBody
-	public void fileUpload() throws Exception {
-		AlteredTable table = new AlteredTable();
-		table.setFilePath("C:\\Users\\Administrator\\Desktop\\excelTest\\excel\\insert.xlsx");
-		table.setTableName("testInsert");
 
-		AlteredField field1 = new AlteredField();
-		field1.setFieldType(FieldType.VARCHAR);
-		field1.setInsert(true);
-		field1.setName("field1");
-		field1.setOriginalName("姓名");
-		field1.setIndexNo(0);
-
-		AlteredField field2 = new AlteredField();
-		field2.setFieldType(FieldType.VARCHAR);
-		field2.setInsert(false);
-		field2.setName("field2");
-		field2.setOriginalName("年龄");
-		field2.setIndexNo(1);
-		table.setFields(new AlteredField[] { field1, field2 });
-		ExcelInsertWithIndexNo insert = new ExcelInsertWithIndexNo();
-		insert.tableCreate(table);
+	/**
+	 * 多页签一张表读取接口,Type=1
+	 * 
+	 * @param fileUrl
+	 *            文件路径
+	 * @return
+	 */
+	@RequestMapping(value = "/excel/table")
+	public Table getSingleTable(String fileUrl) {
+		ExcelParse parse = new ExcelParse();
+		return parse.getSimpleExcelStructure(fileUrl);
 	}
 
-	@RequestMapping("/csv/insert")
-	@ResponseBody
-	public void insert() throws Exception {
-		AlteredTable table = new AlteredTable();
-		table.setFilePath("C:\\Users\\Administrator\\Desktop\\excelTest\\csv1.csv");
-		table.setTableName("testInsert");
+	/**
+	 * 读取Csv文件结构
+	 * 
+	 * @param fileUrl
+	 *            文件路径
+	 * @return
+	 */
+	@RequestMapping(value = "/csv/table")
+	public Table getCsvTable(String fileUrl) {
+		ExcelParse parse = new ExcelParse();
+		return parse.getSimpleExcelStructure(fileUrl);
+	}
 
-		AlteredField field1 = new AlteredField();
-		field1.setFieldType(FieldType.VARCHAR);
-		field1.setInsert(true);
-		field1.setName("field1");
-		field1.setOriginalName("姓名");
-		field1.setIndexNo(0);
+	/**
+	 * 一页签一张表读取接口
+	 * 
+	 * @param fileUrl
+	 * @return
+	 */
+	@RequestMapping(value = "/excel/tables")
+	public List<Table> getMultiTables(String fileUrl, int type) {
+		ExcelParse parse = new ExcelParse();
+		return parse.getMultiExcelStructure(fileUrl);
+	}
 
-		AlteredField field2 = new AlteredField();
-		field2.setFieldType(FieldType.VARCHAR);
-		field2.setInsert(true);
-		field2.setName("field2");
-		field2.setOriginalName("年龄");
-		field2.setIndexNo(1);
-		table.setFields(new AlteredField[] { field1, field2 });
-		CsvParse csvParse = new CsvParse();
-		csvParse.csvInsert(table);
+	/**
+	 * 一页签一张表的数据导入
+	 * 
+	 * @param table
+	 */
+	@RequestMapping(value = "/excel/singletabs/import")
+	public void importSimpleExcelContent(Table table) throws Exception {
+		ExcelParse parse = new ExcelParse();
+		parse.getSimpleExcelContent(table);
+	}
+
+	/**
+	 * 多页签一张表的数据导入
+	 * 
+	 * @param tables
+	 */
+	@RequestMapping(value = "/excel/multitabs/import")
+	public void importMultiExcelContent(List<Table> tables) throws Exception {
+		ExcelParse parse = new ExcelParse();
+		parse.getMultiTableContent(tables);
+	}
+
+	/**
+	 * 一个页签一张表的数据导入
+	 * 
+	 * @param table
+	 */
+	@RequestMapping(value = "/csv/import")
+	public void importCsvContent(Table table) throws Exception {
+		CsvParse parse = new CsvParse();
+		parse.csvInsert(table);
 	}
 }

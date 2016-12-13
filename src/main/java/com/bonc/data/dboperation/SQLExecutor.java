@@ -1,4 +1,4 @@
-package com.bonc.data.poi;
+package com.bonc.data.dboperation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,19 +8,38 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * SQL执行器
+ * 
+ *@author huh
+ *
+ */
 @Component
 public class SQLExecutor {
 
-	private String url = "jdbc:h2:mem:testdb";
-	private String name = "sa";
-	private String password = "";
-	private Connection connection;
-	private String driver = "org.h2.Driver";
+	/**
+	 * 数据库地址
+	 */
+	private String url;
+	/**
+	 * 用户名
+	 */
+	private String userName;
+	/**
+	 * 用户密码
+	 */
+	private String password;
+	/**
+	 * 驱动
+	 */
+	private String driver;
 
 	private Connection getH2Connection() {
+
+		Connection connection = null;
 		try {
 			Class.forName(driver);
-			connection = DriverManager.getConnection(url, name, password);
+			connection = DriverManager.getConnection(url, userName, password);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

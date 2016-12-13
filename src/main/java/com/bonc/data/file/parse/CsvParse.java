@@ -5,9 +5,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bonc.data.poi.SQLExecutor;
-import com.bonc.data.structure.AlteredField;
-import com.bonc.data.structure.AlteredTable;
+import com.bonc.data.dboperation.SQLExecutor;
 import com.bonc.data.structure.Field;
 import com.bonc.data.structure.FieldType;
 import com.bonc.data.structure.Table;
@@ -32,7 +30,7 @@ public class CsvParse {
 		String line = null;
 		Table table = new Table();
 		String tableName = filePath.substring(filePath.lastIndexOf("\\") + 1, filePath.indexOf("."));
-		table.setName(tableName);
+		table.setTableName(tableName);
 		table.setFilePath(filePath);
 		List<Field> fields = new ArrayList<Field>();
 		boolean isFirstLine = true;
@@ -64,21 +62,22 @@ public class CsvParse {
 	 * @param alteredTable
 	 *            更改后的表结构对象
 	 */
-	public void csvInsert(AlteredTable alteredTable) throws Exception {
+	public void csvInsert(Table alteredTable) throws Exception {
 		SQLExecutor sqlExecutor = new SQLExecutor();
 		StringBuilder createSql = new StringBuilder("CREATE TABLE ");
 		if (sqlExecutor.isTableExist(alteredTable.getTableName())) {
 			String newTableName = alteredTable.getTableName() + "_1";
 			createSql.append(newTableName);
 			alteredTable.setTableName(newTableName);
+			// TODO 是否需要判断一下表结构
 		} else {
 			createSql.append(alteredTable.getTableName());
 		}
 		StringBuilder insertSql = new StringBuilder("INSERT INTO " + alteredTable.getTableName() + "(");
 		createSql.append("( ID INT PRIMARY KEY AUTO_INCREMENT,");
-		AlteredField[] alteredFields = alteredTable.getFields();
+		Field[] alteredFields = alteredTable.getFields();
 		List<Integer> indexNos = new ArrayList<Integer>();
-		for (AlteredField field : alteredFields) {
+		for (Field field : alteredFields) {
 			if (field.isInsert()) {
 				createSql.append(field.getName() + " " + field.getFieldType() + ",");
 				insertSql.append(field.getName() + ",");

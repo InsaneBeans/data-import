@@ -1,7 +1,7 @@
 package com.bonc.data.structure;
 
 /**
- * 原字段
+ * 更改之后的字段
  * 
  * @author huh
  *
@@ -9,7 +9,7 @@ package com.bonc.data.structure;
 public class Field {
 
 	/**
-	 * 字段名
+	 * 当前字段名称（存入数据库）
 	 */
 	private String name;
 	/**
@@ -41,19 +41,19 @@ public class Field {
 		this.fieldType = fieldType;
 	}
 
-	public int getIndexNo() {
-		return indexNo;
-	}
-
-	public void setIndexNo(int indexNo) {
-		this.indexNo = indexNo;
-	}
-
 	public boolean isInsert() {
 		return isInsert;
 	}
 
 	public void setInsert(boolean isInsert) {
 		this.isInsert = isInsert;
+	}
+
+	public int getIndexNo() {
+		return indexNo;
+	}
+
+	public void setIndexNo(int indexNo) {
+		this.indexNo = indexNo;
 	}
 }

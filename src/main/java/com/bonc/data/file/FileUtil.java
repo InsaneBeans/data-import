@@ -19,7 +19,7 @@ import com.bonc.data.util.CommonValue;
  */
 public class FileUtil {
 	
-	private Logger logger = null;
+	private static Logger logger = null;
 
 	/**
 	 * 通过路径获取文件后缀
@@ -27,7 +27,7 @@ public class FileUtil {
 	 * @param filePath
 	 * @return
 	 */
-	public String getFileSuffix(String filePath) {
+	public static String getFileSuffix(String filePath) {
 		if (filePath == null || CommonValue.EMPTY_CONTENT.equals(filePath.trim())) {
 			return CommonValue.EMPTY_CONTENT;
 		}
@@ -43,7 +43,7 @@ public class FileUtil {
 	 * @param filePath
 	 * @return
 	 */
-	public FileType fileTypeJudge(String filePath) {
+	public static FileType fileTypeJudge(String filePath) {
 		if (filePath == null || CommonValue.EMPTY_CONTENT.equals(filePath.trim())) {
 			return null;
 		}
@@ -64,7 +64,7 @@ public class FileUtil {
 	 * @param filePath
 	 * @return
 	 */
-	public Workbook getExcelWorkbook(String filePath) {
+	public static Workbook getExcelWorkbook(String filePath) {
 		Workbook wb = null;
 		try{
 			InputStream is = new FileInputStream(new File(filePath));
