@@ -73,8 +73,7 @@ public class XmlSerialIml implements Serial {
 	private void serializeToXmlFile(Object object, String fullFileName) {
 		try {
 			XmlMapper xmlMapper = new XmlMapper();
-			StringWriter xmlStringWriter = new StringWriter();
-			xmlMapper.writeValue(xmlStringWriter, object);
+			xmlMapper.writeValue(new StringWriter(), object);
 			outPutXmlFile.outputFolderCheck(xmlStringWriter.toString(), fullFileName);
 			outPutXmlFile.outputFile(xmlStringWriter.toString(), fullFileName);
 		} catch (IOException e) {
