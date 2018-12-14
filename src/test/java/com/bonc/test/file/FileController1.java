@@ -4,11 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bonc.data.file.parse.CsvParse;
-import com.bonc.data.file.parse.ExcelParse;
-import com.bonc.data.structure.Field;
-import com.bonc.data.structure.FieldType;
-import com.bonc.data.structure.Table;
+import com.bblee.data.service.file.parse.CsvParse;
+import com.bblee.data.service.file.parse.ExcelParse;
+import com.bblee.data.service.structure.Field;
+import com.bblee.data.service.structure.FieldType;
+import com.bblee.data.service.structure.Table;
 
 @Controller
 public class FileController1 {

@@ -13,10 +13,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.bonc.data.Application;
-import com.bonc.data.structure.Field;
-import com.bonc.data.structure.Table;
-import com.bonc.data.structure.FieldType;
+import com.bblee.data.service.Application;
+import com.bblee.data.service.structure.Field;
+import com.bblee.data.service.structure.Table;
+import com.bblee.data.service.structure.FieldType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
